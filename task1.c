@@ -2,34 +2,31 @@
 
 void readPlayerArray(Player *array, int intValue, FILE *read_file)
 {
-    char *auxChar1=(char *)malloc(20*sizeof(char));
-    char *auxChar2=(char *)malloc(20*sizeof(char));
-    int auxInt;
-	for(int j=0; intValue; j++)
+    char charBuff1[20], charBuff2[20];
+    int intBuff;
+	for(int j=0; j<intValue; j++)
     {
-        auxChar1 = (char *)realloc(auxChar1, 20*sizeof(char));
-        auxChar2 = (char *)realloc(auxChar2, 20*sizeof(char));
-        fscanf(read_file, "%s%s%d", auxChar1, auxChar2, &auxInt);
-        auxChar1 = (char *)realloc(auxChar1, strlen(auxChar1)*sizeof(char));
-        auxChar2 = (char *)realloc(auxChar2, strlen(auxChar2)*sizeof(char));
-        strcpy(array[j].firstName, auxChar1);
-        strcpy(array[j].secondName, auxChar2);
-        array[j].points = auxInt;
+        
+        fscanf(read_file, "%s%s%d", charBuff1, charBuff2, &intBuff);
+        charBuff1[strlen(charBuff1)]='\0';
+        charBuff2[strlen(charBuff2)]='\0';
+        array[j].firstName = (char *)malloc(strlen(charBuff1)*sizeof(char));
+        array[j].secondName = (char *)malloc(strlen(charBuff2)*sizeof(char));
+        strcpy(array[j].firstName, charBuff1);
+        strcpy(array[j].secondName, charBuff2);
+        array[j].points = intBuff;
     }
-    free(auxChar1);
-    free(auxChar2);
 }
 
 void readTeamNode(teamNode **head, int intValue, char *charValue, FILE *read_file)
 {
-	teamNode* newNode = (teamNode*)malloc(sizeof(teamNode));
+	teamNode *newNode = (teamNode*)malloc(sizeof(teamNode));
 	newNode->val.numberOfPlayers = intValue;
     newNode->val.teamName = (char *)malloc(strlen(charValue)*sizeof(char));
     strcpy(newNode->val.teamName, charValue);
 
     newNode->val.playersArray = (Player *)malloc(intValue*sizeof(Player));
     readPlayerArray(newNode->val.playersArray, intValue, read_file );
-
 	newNode->next = *head;
 	*head = newNode;
 
@@ -45,19 +42,19 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
     }
 
     fscanf(read_file, "%d", numberOfTeams);
-    int auxInt;
-    char *auxChar;
+    int intBuff;
+    
+    char charBuff[100];
 
-    for(int i=0; i<*numberOfTeams; i++)
+    for(int i=0; i<(*numberOfTeams); i++)
     {
-        fscanf(read_file, "%d", &auxInt);
-        //getchar();
-        auxChar = (char *)malloc(100*sizeof(char));
-        fgets(auxChar, 100, read_file);
-        auxChar = (char *)realloc(auxChar, strlen(auxChar)*sizeof(char));
-        readTeamNode(head, auxInt, auxChar, read_file);
+        fscanf(read_file, "%d", &intBuff);
+        fgets(charBuff, 100, read_file);
+        charBuff[strlen(charBuff)-1]='\0';
+        strcpy(charBuff, charBuff+1);
+        readTeamNode(&*head, intBuff, charBuff, read_file);
     }
-
+    
     fclose(read_file);
 }
 
