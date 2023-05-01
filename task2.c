@@ -1,13 +1,24 @@
 #include"task1.h"
 #include"task2.h"
+
 void teamPoints(teamNode *head, int numberOfTeams)
 {
     for(int i=0; i<numberOfTeams; i++)
     {
         head->val.teamPoints = 0;
         for(int j=0; j<head->val.numberOfPlayers;j++)
-            head->val.teamPoints = head->val.playersArray[j].points;
+            head->val.teamPoints = head->val.teamPoints + head->val.playersArray[j].points;
         head->val.teamPoints = head->val.teamPoints/head->val.numberOfPlayers;
+        head = head->next;
+    }
+}
+
+void displayTeamPoints(teamNode *head, int numberOfTeams)
+{
+    for(int i=0; i<numberOfTeams; i++)
+    {
+        printf("%f %s\n",head->val.teamPoints, head->val.teamName);
+        getchar();
         head = head->next;
     }
 }
@@ -20,6 +31,71 @@ int maxNumberOfTeams(int numberOfTeams)
     return n;
 }
 
+int floatEqual(float a, float b)
+{
+    return fabs(a-b) < 0.0000001;
+}
+
+void deleteTeamNode(teamNode **head , float v)
+{
+    if (* head == NULL ) 
+        return;
+    teamNode *headcopy = *head ;
+    if ( floatEqual(headcopy->val.teamPoints, v))
+    {
+        *head = (*head)->next ;
+        freeNodeList(&headcopy); 
+        return ; 
+    }
+    teamNode *prev =* head ; 
+    while ( headcopy != NULL )
+    {
+        if(floatEqual(headcopy->val.teamPoints, v)){
+            prev->next = headcopy->next ;
+            freeNodeList(&headcopy ); 
+            return ; 
+        }
+        else 
+        {
+            prev = headcopy ;
+            headcopy = headcopy->next ;
+        }
+    }
+}
+
+float findLowestScore(teamNode *head)
+{
+    float min = head->val.teamPoints;
+    head = head->next ;
+    while ( head != NULL )
+    {
+        if(head->val.teamPoints < min)
+            min = head->val.teamPoints;
+        head = head->next ;
+    }
+    return min;
+}
+
+void deleteTeams(teamNode **head, int *numberOfTeams)
+{
+    int intBuff = maxNumberOfTeams(*numberOfTeams);
+    float lowestScore;
+    while(*numberOfTeams != intBuff)
+    {
+        lowestScore = findLowestScore(*head);
+        deleteTeamNode(&*head, lowestScore);
+        (*numberOfTeams)--;
+    }
+}
+
+
+
+
+
+
+
+
+/*
 BSTnode *newNode(float data) {
 	BSTnode *node = (BSTnode*)malloc(sizeof(BSTnode));
 	node->val = data;
@@ -45,36 +121,4 @@ void createPointsBST(BSTnode *root)
         head = head->next;
     }
 }
-
-
-void deleteTeamNode(teamNode **head , float v)
-{
-    if (* head == NULL ) return;
-        teamNode *headcopy = *head ;
-    if ( headcopy->val.teamPoints == v)
-    {
-        *head = (*head)->next ;
-        free(headcopy); // sterge primul element
-        return ; 
-    }
-    // 2. Elementul de sters are o pozitie oarecare
-    teamNode * prev =* head ; // predecesorul elementului cautat
-    while ( headcopy != NULL )
-    {
-        if( headcopy->val ==v){
-           prev = headcopy ;
-            headcopy = headcopy->next ;
-        }
-        else 
-        {
-            prev->next = headcopy->next ;
-            free ( headcopy ); // sterge elementul
-            return ; 
-        }
-    }
-}
-
-void deleteTeams(teamNode **root)
-{
-    if(*root)
-}
+*/

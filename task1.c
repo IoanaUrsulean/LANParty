@@ -6,7 +6,6 @@ void readPlayerArray(Player *array, int intValue, FILE *read_file)
     int intBuff;
 	for(int j=0; j<intValue; j++)
     {
-        
         fscanf(read_file, "%s%s%d", charBuff1, charBuff2, &intBuff);
         charBuff1[strlen(charBuff1)]='\0';
         charBuff2[strlen(charBuff2)]='\0';
@@ -24,13 +23,11 @@ void readTeamNode(teamNode **head, int intValue, char *charValue, FILE *read_fil
 	newNode->val.numberOfPlayers = intValue;
     newNode->val.teamName = (char *)malloc(strlen(charValue)*sizeof(char));
     strcpy(newNode->val.teamName, charValue);
-
     newNode->val.playersArray = (Player *)malloc(intValue*sizeof(Player));
     readPlayerArray(newNode->val.playersArray, intValue, read_file );
-	newNode->next = *head;
+	
+    newNode->next = *head;
 	*head = newNode;
-
-    
 }
 
 void readList(char *caleDate, teamNode **head, int *numberOfTeams)
@@ -43,9 +40,7 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
 
     fscanf(read_file, "%d", numberOfTeams);
     int intBuff;
-    
     char charBuff[100];
-
     for(int i=0; i<(*numberOfTeams); i++)
     {
         fscanf(read_file, "%d", &intBuff);
@@ -58,18 +53,38 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
     fclose(read_file);
 }
 
-void displayList(char *caleIesire, teamNode *head, int numberOfTeams)
+void displayList(char *outputFilePath, teamNode *head, int numberOfTeams)
 {
-    FILE *display_file = fopen(caleIesire, "wt");
+    FILE *display_file = fopen(outputFilePath, "wt");
     if(display_file == NULL){
         printf("ErRoR! CoUlD nOt OpEn ReAd_FiLe."); 
         exit(1);
     }
+
     for(int i=0; i<numberOfTeams; i++)
     {
+        //printf("%d %s\n", head->val.numberOfPlayers, head->val.teamName);
+        //for(int j=0; j<head->val.numberOfPlayers; j++)
+        //    printf("%s %s %d\n", head->val.playersArray[j].firstName, head->val.playersArray[j].secondName, head->val.playersArray[j].points);
         fprintf(display_file, "%s\n", head->val.teamName);
+        //getchar();
         head = head->next;
     }
+    fclose(display_file);
+}
+
+void freeNodeList(teamNode **head)
+{
+   
+    for(int i=0; i<(*head)->val.numberOfPlayers; i++)
+    {
+        free((*head)->val.playersArray[i].firstName);
+        free((*head)->val.playersArray[i].secondName);    
+    }
+    free(((*head)->val.playersArray));
+    free(((*head)->val.teamName));
+    free(*head);
+        
 }
 
 void deleteList(teamNode **head)
@@ -77,33 +92,17 @@ void deleteList(teamNode **head)
     teamNode *headcopy;
     while (* head != NULL )
     {
+         
         headcopy =(*head)->next ;
-        for(int i=0; i<(*head)->val.numberOfPlayers; i++)
-        {
-            free((*head)->val.playersArray[i].firstName);
-            free((*head)->val.playersArray[i].secondName);    
-        }
-        free(((*head)->val.playersArray));
-        free(((*head)->val.teamName));
-        free(*head);
+        freeNodeList(&*head);
         *head = headcopy ;
     }
     * head = NULL ;
 }
 
-
-void freeAll(Team teamArray[], int *numberOfTeams)
+void freeMemory(teamNode **head, int *numberOfTeams, int *taskArray)
 { 
-   ;
+    deleteList(&*head);
+    free(numberOfTeams);
+    free(taskArray);
 }   
-
-/*
- 
-
-    FILE *display_file = fopen(argv[3], "at");
-    if(display_file == NULL){
-        printf("ErRoR! Could not open display_file."); 
-        exit(1);
-    }
-    fclose(display_file);
-*/
