@@ -2,7 +2,7 @@
 
 void readPlayerArray(Player *array, int intValue, FILE *read_file)
 {
-    char charBuff1[20], charBuff2[20];
+    char charBuff1[50], charBuff2[50];
     int intBuff;
 	for(int j=0; j<intValue; j++)
     {
@@ -44,9 +44,11 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
     for(int i=0; i<(*numberOfTeams); i++)
     {
         fscanf(read_file, "%d", &intBuff);
+        fgetc(read_file);
         fgets(charBuff, 100, read_file);
-        charBuff[strlen(charBuff)-1]='\0';
-        strcpy(charBuff, charBuff+1);
+        //strcpy(charBuff, charBuff+1);
+        charBuff[strlen(charBuff)-2]='\0';
+        
         readTeamNode(&*head, intBuff, charBuff, read_file);
     }
     
@@ -63,7 +65,7 @@ void displayList(char *outputFilePath, teamNode *head, int numberOfTeams)
 
     for(int i=0; i<numberOfTeams; i++)
     {
-        //printf("%d %s\n", head->val.numberOfPlayers, head->val.teamName);
+        //printf("%d %d %s\n", head->val.numberOfPlayers, strlen(head->val.teamName), head->val.teamName);
         //for(int j=0; j<head->val.numberOfPlayers; j++)
         //    printf("%s %s %d\n", head->val.playersArray[j].firstName, head->val.playersArray[j].secondName, head->val.playersArray[j].points);
         fprintf(display_file, "%s\n", head->val.teamName);
