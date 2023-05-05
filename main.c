@@ -1,5 +1,6 @@
 #include"task1.h"
 #include"task2.h"
+#include"task3.h"
 
 int main(int argc, char **argv)
 {
@@ -32,7 +33,12 @@ int main(int argc, char **argv)
         deleteTeams(&head, numberOfTeams);
         displayList(outputFilePath, head, *numberOfTeams);
     } 
-    
+    if(taskArray[2])
+        rounds(outputFilePath, &head, numberOfTeams);
+
+
+
+
     //eliberare memorie
     freeMemory(&head, numberOfTeams, taskArray);
     fclose(task_file);
