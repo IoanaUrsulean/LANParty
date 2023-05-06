@@ -48,6 +48,8 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
         fgets(charBuff, 100, read_file);
         //strcpy(charBuff, charBuff+1);
         charBuff[strlen(charBuff)-2]='\0';
+        if(charBuff[strlen(charBuff)-1]==' ')
+            charBuff[strlen(charBuff)-1]='\0';
         
         readTeamNode(&*head, intBuff, charBuff, read_file);
     }
@@ -99,12 +101,14 @@ void deleteList(teamNode **head)
         freeNodeList(&*head);
         *head = headcopy ;
     }
-    * head = NULL ;
+    *head = NULL ;
 }
 
 void freeMemory(teamNode **head, int *numberOfTeams, int *taskArray)
-{ 
-    deleteList(&*head);
+{   //if(taskArray[2]==0)
+        deleteList(&*head);
     free(numberOfTeams);
+    numberOfTeams = NULL;
     free(taskArray);
+    taskArray = NULL;
 }   

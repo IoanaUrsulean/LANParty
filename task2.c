@@ -26,7 +26,7 @@ void displayTeamPoints(teamNode *head, int numberOfTeams)
 int maxNumberOfTeams(int numberOfTeams)
 {
     int n=1;
-    while(2*n < numberOfTeams)
+    while(2*n <= numberOfTeams)
         n = 2*n;
     return n;
 }

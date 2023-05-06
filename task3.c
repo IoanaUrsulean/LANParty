@@ -113,10 +113,30 @@ void displayRounds(FILE *display_file, teamNode *winnerStack, int numberOfTeams,
     fprintf(display_file, "\nWINNERS OF ROUND NO:%d\n", roundNumber);
     for(int i=0; i<numberOfTeams; i++)
     {
-        fprintf(display_file,"%-32s- %.2f\n", winnerStack->val.teamName, winnerStack->val.teamPoints);
+        fprintf(display_file,"%-34s-  %.2f\n", winnerStack->val.teamName, winnerStack->val.teamPoints);
         winnerStack = winnerStack->next;
     }
 
+}
+void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, Team *d)
+{
+    while(!isQueueEmpty(*q))
+    {
+        deQueue(*q, d);
+        fprintf(display_file, "%-33s-%33s\n", d[0].teamName, d[1].teamName);
+        if(d[0].teamPoints>d[1].teamPoints)
+        {
+            modifyPoints(d[0]);
+            push(&*winnerStack, d[0]);
+            push(&*loserStack, d[1]);
+        }
+        else
+        {
+            modifyPoints(d[1]);
+            push(&*winnerStack, d[1]);
+            push(&*loserStack, d[0]);
+        }
+    }
 }
 void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
 {
@@ -128,27 +148,11 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
 
     Queue *q = createQueue();
     enQueue(q, *head);
-    fprintf(display_file, "\n--- ROUND NO:1\n");
-    
     Team *d = (Team *)malloc(2*sizeof(Team));
     teamNode *winnerStack = NULL, *loserStack = NULL;
-    while(!isQueueEmpty(q))
-    {
-        deQueue(q, d);
-        fprintf(display_file, "%-32s-%32s\n", d[0].teamName, d[1].teamName);
-        if(d[0].teamPoints>d[1].teamPoints)
-        {
-            modifyPoints(d[0]);
-            push(&winnerStack, d[0]);
-            push(&loserStack, d[1]);
-        }
-        else
-        {
-            modifyPoints(d[1]);
-            push(&winnerStack, d[1]);
-            push(&loserStack, d[0]);
-        }
-    }
+
+    fprintf(display_file, "\n--- ROUND NO:1\n");
+    decideWinner(display_file, &q, &winnerStack, &loserStack, d);
     (*numberOfTeams) = (*numberOfTeams)/2;
     //deleteList(&*head);
     teamPoints(winnerStack, *numberOfTeams);
@@ -162,31 +166,12 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
         deleteQueue(q);
         q =  NULL;
         q = createQueue();
-        
         enQueue(q, winnerStack);
         deleteStack(&winnerStack);
-
-         while(!isQueueEmpty(q))
-        {
-            deQueue(q, d);
-            fprintf(display_file, "%-32s-%32s\n", d[0].teamName, d[1].teamName);
-            if(d[0].teamPoints>d[1].teamPoints)
-            {
-                modifyPoints(d[0]);
-                push(&winnerStack, d[0]);
-                push(&loserStack, d[1]);
-            }
-            else
-            {
-                modifyPoints(d[1]);
-                push(&winnerStack, d[1]);
-                push(&loserStack, d[0]);
-            }
-        }
+        decideWinner(display_file, &q, &winnerStack, &loserStack, d);
         (*numberOfTeams) = (*numberOfTeams)/2;
         teamPoints(winnerStack, *numberOfTeams);
         displayRounds(display_file, winnerStack, *numberOfTeams, roundNumber);
-        
         deleteStack(&loserStack);
     }
     
