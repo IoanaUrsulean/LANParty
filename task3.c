@@ -1,7 +1,7 @@
 #include"task1.h"
 #include"task2.h"
 #include"task3.h"
-
+#include"task4.h"
 Queue * createQueue()
 {
     Queue *q;
@@ -138,7 +138,7 @@ void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNod
         }
     }
 }
-void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
+void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray)
 {
     FILE *display_file = fopen(outputFilePath, "at");
     if(display_file == NULL){
@@ -159,8 +159,15 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
     displayRounds(display_file, winnerStack, *numberOfTeams, 1);
     deleteStack(&loserStack);
     int roundNumber = 1;
+    BSTNode *root = NULL;
     while(*numberOfTeams > 1)
-    {   
+    {   if(taskArray[3])
+            if(*numberOfTeams == 8)
+            {
+                
+                root = leaderBoard(display_file, winnerStack, *numberOfTeams);
+            }
+            
         roundNumber++;
         fprintf(display_file, "\n--- ROUND NO:%d\n", roundNumber);
         deleteQueue(q);
@@ -174,7 +181,11 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams)
         displayRounds(display_file, winnerStack, *numberOfTeams, roundNumber);
         deleteStack(&loserStack);
     }
-    
+    if(taskArray[3])
+    {
+        fprintf(display_file, "\nTOP 8 TEAMS:\n");
+        inorder(display_file, root);
+    }
     
     fclose(display_file);
 }

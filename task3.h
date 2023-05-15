@@ -24,4 +24,4 @@ void push(teamNode**top, Team v) ;
 Team pop(teamNode**top) ;
 void deleteStack(teamNode**top);
 void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, Team *d);
-void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams);
+void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray);
