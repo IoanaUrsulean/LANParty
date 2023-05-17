@@ -92,35 +92,35 @@ AVLNode *insertAVLNode ( AVLNode * node , float floatData, char *charData)
 
     if (k > 1 && floatData < (node->left)->points)
     {
-        //printf("R ");
+        printf("R ");
         return rightRotation ( node );
     }
        
     if (k < -1 && floatData > (node->right)->points)
     {
-        //printf("L ");
+        printf("L ");
         return leftRotation ( node );
     }
     
     if (k > 1 && floatData > (node->left)->points)
     {
-        //printf("RL ");
-        //return RLRotation ( node );
+        printf("RL ");
+        return RLRotation ( node );
     }
 
     if (k < -1 && floatData < (node->right)->points)
     {
-        //printf("LR ");
+        printf("LR ");
         return LRRotation ( node );
     }
     return node ; 
 }
-void createTree (FILE *display_file, BSTNode * BSTroot , AVLNode *AVLroot) 
+void createTree (BSTNode * BSTroot , AVLNode **AVLroot) 
 {
     if ( BSTroot ){
-        createTree (display_file, BSTroot->right , AVLroot);
-        AVLroot = insertAVLNode (AVLroot ,BSTroot->points, BSTroot->name);
-        createTree (display_file, BSTroot->left, AVLroot);
+        createTree ( BSTroot->right , &*AVLroot);
+        *AVLroot = insertAVLNode (*AVLroot ,BSTroot->points, BSTroot->name);
+        createTree (BSTroot->left, &*AVLroot);
     }
 }
 AVLNode *tree(FILE *display_file, teamNode *winnerStack, int numberOfTeams)
@@ -130,8 +130,7 @@ AVLNode *tree(FILE *display_file, teamNode *winnerStack, int numberOfTeams)
     //helping hand is working
     AVLNode *root = NULL ;
     
-    createTree(display_file, helpingHand, root);
-    inorder1 (  root ) ;
+    createTree( helpingHand, &root);
     return root;
 }
 void printLevel (FILE *display_file,  AVLNode * root , int level )

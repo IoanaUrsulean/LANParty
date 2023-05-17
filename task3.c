@@ -197,7 +197,7 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *task
     if(taskArray[4])
     {
         fprintf(display_file, "\nTHE LEVEL 2 TEAMS ARE:\n");
-        printLevel(display_file, AVLroot, 1);
+        printLevel(display_file, AVLroot, 3);
     }
     fclose(display_file);
 }
