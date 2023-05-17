@@ -9,22 +9,22 @@ BSTNode * newNode ( float floatData, char *charData )
     node->left = node->right = NULL ;
     return node ;
 }
-BSTNode * insert ( BSTNode * node , float floatData, char *charData) 
+BSTNode * insertBSTNode ( BSTNode * node , float floatData, char *charData) 
 {
     
     if ( node == NULL ) 
         return newNode ( floatData, charData );
     if ( floatData < node->points)
-        node->left = insert (node->left , floatData, charData );
+        node->left = insertBSTNode (node->left , floatData, charData );
     else 
         if (floatData > node->points)
-            node->right = insert (node->right , floatData, charData );
+            node->right = insertBSTNode (node->right , floatData, charData );
         else
         {
             if ( strcmp(charData, node->name)<0)
-                node->left = insert (node->left , floatData, charData );
+                node->left = insertBSTNode (node->left , floatData, charData );
             else 
-                node->right = insert (node->right , floatData, charData );
+                node->right = insertBSTNode (node->right , floatData, charData );
         }
     return node ;
 }
@@ -42,9 +42,8 @@ BSTNode *leaderBoard(FILE *display_file, teamNode *winnerStack, int numberOfTeam
     BSTNode *root = NULL ;
     for(int i=0; i<numberOfTeams; i++)
     {
-        root = insert (root ,winnerStack->val.teamPoints, winnerStack->val.teamName);
+        root = insertBSTNode (root ,winnerStack->val.teamPoints, winnerStack->val.teamName);
         winnerStack = winnerStack->next;
     }
     return root;
 }
-

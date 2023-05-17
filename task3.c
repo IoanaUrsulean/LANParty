@@ -2,6 +2,7 @@
 #include"task2.h"
 #include"task3.h"
 #include"task4.h"
+#include"task5.h"
 Queue * createQueue()
 {
     Queue *q;
@@ -159,14 +160,21 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *task
     displayRounds(display_file, winnerStack, *numberOfTeams, 1);
     deleteStack(&loserStack);
     int roundNumber = 1;
-    BSTNode *root = NULL;
+    BSTNode *BSTroot = NULL;
+    AVLNode *AVLroot = NULL;
     while(*numberOfTeams > 1)
     {   if(taskArray[3])
             if(*numberOfTeams == 8)
             {
                 
-                root = leaderBoard(display_file, winnerStack, *numberOfTeams);
+                BSTroot = leaderBoard(display_file, winnerStack, *numberOfTeams);
             }
+        if(taskArray[4])
+            if(*numberOfTeams == 8)
+            {
+                AVLroot = tree(display_file, winnerStack, *numberOfTeams);
+            }
+            
             
         roundNumber++;
         fprintf(display_file, "\n--- ROUND NO:%d\n", roundNumber);
@@ -184,8 +192,12 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *task
     if(taskArray[3])
     {
         fprintf(display_file, "\nTOP 8 TEAMS:\n");
-        inorder(display_file, root);
+        inorder(display_file, BSTroot);
     }
-    
+    if(taskArray[4])
+    {
+        fprintf(display_file, "\nTHE LEVEL 2 TEAMS ARE:\n");
+        printLevel(display_file, AVLroot, 1);
+    }
     fclose(display_file);
 }
