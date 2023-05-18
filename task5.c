@@ -90,28 +90,25 @@ AVLNode *insertAVLNode ( AVLNode * node , float floatData, char *charData)
 
     int k = ( nodeHeight (node->left ) - nodeHeight (node->right ));
 
-    if (k > 1 && floatData < (node->left)->points)
+    if (k > 1 && (floatData < (node->left)->points || strcmp(charData, (node->left)->name) < 0))
     {
-        printf("R ");
         return rightRotation ( node );
     }
        
-    if (k < -1 && floatData > (node->right)->points)
+    if (k < -1 && (floatData > (node->right)->points || strcmp(charData, (node->right)->name) > 0))
     {
-        printf("L ");
+
         return leftRotation ( node );
     }
     
-    if (k > 1 && floatData > (node->left)->points)
+    if (k > 1 && (floatData > (node->left)->points|| strcmp(charData, (node->left)->name) > 0))
     {
-        printf("RL ");
-        return RLRotation ( node );
+        return LRRotation ( node );
     }
 
-    if (k < -1 && floatData < (node->right)->points)
+    if (k < -1 && (floatData < (node->right)->points || strcmp(charData, (node->right)->name) < 0))
     {
-        printf("LR ");
-        return LRRotation ( node );
+        return RLRotation ( node );
     }
     return node ; 
 }
