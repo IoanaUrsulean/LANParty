@@ -1,1 +1,1 @@
-# myproject
+# LAN Party
