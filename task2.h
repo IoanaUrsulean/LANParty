@@ -1,8 +1,7 @@
 #include<math.h>
 
-
-void teamPoints(teamNode *head, int numberOfTeams);
-void displayTeamPoints(teamNode *head, int numberOfTeams);
+void teamPoints(teamNode *head);
+//void displayTeamPoints(teamNode *head, int numberOfTeams);
 int maxNumberOfTeams(int numberOfTeams);
 int floatEqual(float a, float b);
 void deleteTeamNode(teamNode **head , float v);

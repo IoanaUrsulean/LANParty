@@ -26,7 +26,8 @@ struct teamNode
 };
 typedef struct teamNode teamNode;
 
-
+void intAllocationTest(int *p);
+void charAllocationTest(char *p);
 void readPlayerArray(Player *array, int intValue, FILE *read_file);
 void readTeamNode(teamNode **head, int intValue, char *charValue, FILE *read_file);
 void readList(char *inputFilePath, teamNode **head, int *numberOfTeams);

@@ -1,16 +1,33 @@
 #include"task1.h"
-
+void intAllocationTest(int *p)
+{
+    if(p == NULL)
+    {
+        printf("AlLoCaTiOn ErRoR!\n");
+        exit(1);
+    }
+}
+void charAllocationTest(char *p)
+{
+    if(p == NULL)
+    {
+        printf("AlLoCaTiOn ErRoR!\n");
+        exit(1);
+    }
+}
 void readPlayerArray(Player *array, int intValue, FILE *read_file)
 {
     char charBuff1[50], charBuff2[50];
     int intBuff;
-	for(int j=0; j<intValue; j++)
+	for(int j = 0; j < intValue; j++)
     {
         fscanf(read_file, "%s%s%d", charBuff1, charBuff2, &intBuff);
-        charBuff1[strlen(charBuff1)]='\0';
-        charBuff2[strlen(charBuff2)]='\0';
+        charBuff1[strlen(charBuff1)] = '\0';
+        charBuff2[strlen(charBuff2)] = '\0';
         array[j].firstName = (char *)malloc(strlen(charBuff1)*sizeof(char));
+        charAllocationTest(array[j].firstName);
         array[j].secondName = (char *)malloc(strlen(charBuff2)*sizeof(char));
+        charAllocationTest(array[j].secondName);
         strcpy(array[j].firstName, charBuff1);
         strcpy(array[j].secondName, charBuff2);
         array[j].points = intBuff;
@@ -20,10 +37,22 @@ void readPlayerArray(Player *array, int intValue, FILE *read_file)
 void readTeamNode(teamNode **head, int intValue, char *charValue, FILE *read_file)
 {
 	teamNode *newNode = (teamNode*)malloc(sizeof(teamNode));
+    if(newNode == NULL)
+    {
+        printf("AlLoCaTiOn ErRoR!\n");
+        exit(1);
+    }
 	newNode->val.numberOfPlayers = intValue;
     newNode->val.teamName = (char *)malloc(strlen(charValue)*sizeof(char));
+    charAllocationTest(newNode->val.teamName);
     strcpy(newNode->val.teamName, charValue);
     newNode->val.playersArray = (Player *)malloc(intValue*sizeof(Player));
+    if(newNode->val.playersArray == NULL)
+    {
+        printf("AlLoCaTiOn ErRoR!\n");
+        exit(1);
+    }
+    
     readPlayerArray(newNode->val.playersArray, intValue, read_file );
 	
     newNode->next = *head;
@@ -41,15 +70,15 @@ void readList(char *caleDate, teamNode **head, int *numberOfTeams)
     fscanf(read_file, "%d", numberOfTeams);
     int intBuff;
     char charBuff[100];
-    for(int i=0; i<(*numberOfTeams); i++)
+    for(int i = 0; i < (*numberOfTeams); i++)
     {
         fscanf(read_file, "%d", &intBuff);
         fgetc(read_file);
         fgets(charBuff, 100, read_file);
         //strcpy(charBuff, charBuff+1);
-        charBuff[strlen(charBuff)-2]='\0';
-        if(charBuff[strlen(charBuff)-1]==' ')
-            charBuff[strlen(charBuff)-1]='\0';
+        charBuff[strlen(charBuff)-2] = '\0';
+        if(charBuff[strlen(charBuff)-1] == ' ')
+            charBuff[strlen(charBuff)-1] = '\0';
         
         readTeamNode(&*head, intBuff, charBuff, read_file);
     }
@@ -65,13 +94,9 @@ void displayList(char *outputFilePath, teamNode *head, int numberOfTeams)
         exit(1);
     }
 
-    for(int i=0; i<numberOfTeams; i++)
+    while(head!=NULL)
     {
-        //printf("%d %d %s\n", head->val.numberOfPlayers, strlen(head->val.teamName), head->val.teamName);
-        //for(int j=0; j<head->val.numberOfPlayers; j++)
-        //    printf("%s %s %d\n", head->val.playersArray[j].firstName, head->val.playersArray[j].secondName, head->val.playersArray[j].points);
         fprintf(display_file, "%s\n", head->val.teamName);
-        //getchar();
         head = head->next;
     }
     fclose(display_file);
@@ -80,7 +105,7 @@ void displayList(char *outputFilePath, teamNode *head, int numberOfTeams)
 void freeNodeList(teamNode **head)
 {
    
-    for(int i=0; i<(*head)->val.numberOfPlayers; i++)
+    for(int i = 0; i < (*head)->val.numberOfPlayers; i++)
     {
         free((*head)->val.playersArray[i].firstName);
         free((*head)->val.playersArray[i].secondName);    
@@ -97,7 +122,7 @@ void deleteList(teamNode **head)
     while (* head != NULL )
     {
          
-        headcopy =(*head)->next ;
+        headcopy = (*head)->next ;
         freeNodeList(&*head);
         *head = headcopy ;
     }
@@ -105,8 +130,8 @@ void deleteList(teamNode **head)
 }
 
 void freeMemory(teamNode **head, int *numberOfTeams, int *taskArray)
-{   //if(taskArray[2]==0)
-        deleteList(&*head);
+{
+    deleteList(&*head);
     free(numberOfTeams);
     numberOfTeams = NULL;
     free(taskArray);

@@ -3,13 +3,13 @@
 #include"task3.h"
 #include"task4.h"
 #include"task5.h"
-Queue * createQueue()
+Queue *createQueue()
 {
     Queue *q;
-    q=( Queue *) malloc ( sizeof ( Queue ));
-    if (q== NULL ) 
-        return NULL ;
-    q->front = q->rear = NULL ;
+    q = ( Queue *)malloc(sizeof(Queue));
+    if(q == NULL ) 
+        return NULL;
+    q->front = q->rear = NULL;
     return q;
 }
 
@@ -17,17 +17,18 @@ void enQueue(Queue *q, teamNode *head)
 {
     while(head != NULL)
     {
-        queueNode * newNode =( queueNode *) malloc ( sizeof ( queueNode ));
+        queueNode * newNode = (queueNode *)malloc(sizeof(queueNode));
         newNode->team1 = head->val;
         newNode->team2 = head->next->val;
-        newNode->next = NULL ;
-        if (q->rear == NULL ) 
-            q->rear = newNode ;
-        else {
-            (q->rear ) ->next = newNode ;
-            (q->rear ) = newNode ;
+        newNode->next = NULL;
+        if(q->rear == NULL) 
+            q->rear = newNode;
+        else 
+        {
+            (q->rear)->next = newNode;
+            (q->rear) = newNode;
         }
-        if (q->front == NULL ) 
+        if(q->front == NULL ) 
             q->front = q->rear ;
         head = (head->next)->next;
     }
@@ -38,11 +39,11 @@ int isQueueEmpty(Queue *q)
 	return (q->front==NULL);
 }
 
-int deQueue(Queue*q, Team *d) 
+int deQueue(Queue *q, Team *d) 
 {  
 	queueNode* aux; 
     
-	if (isQueueEmpty(q)) 
+	if(isQueueEmpty(q)) 
        return INT_MIN;
 	
 	aux=q->front; 
@@ -52,46 +53,47 @@ int deQueue(Queue*q, Team *d)
 	free(aux); 	
 } 
 
-void deleteQueue ( Queue *q)
+void deleteQueue( Queue *q)
 {
     queueNode *aux ;
-    while (! isQueueEmpty (q)){
-    aux =q->front ;
-    q->front =q->front->next ;
-    // printf (”%d” ,aux ->val );
-    free ( aux );
+    while(!isQueueEmpty(q))
+    {
+        aux = q->front ;
+        q->front = q->front->next ;
+        free(aux);
     }
-    free (q);
+    free(q);
 }
 
-int isStackEmpty(teamNode*top)
+int isStackEmpty(teamNode *top)
 {
-	return top==NULL;
+	return top == NULL;
 }
 
 Team top(teamNode *top)
 {
-	if (isStackEmpty(top)) 
-        return;
-	return top->val;
+	if (!isStackEmpty(top)) 
+	    return top->val;
 } 
 
-void push(teamNode**top, Team v) 
+void push(teamNode **top, Team v) 
 {
-	teamNode* newNode=(teamNode*)malloc(sizeof(teamNode));
-	newNode->val=v;
-	newNode->next=*top;
-	*top=newNode;
+	teamNode *newNode = (teamNode *)malloc(sizeof(teamNode));
+	newNode->val = v;
+	newNode->next = *top;
+	*top = newNode;
 }
 
-Team pop(teamNode**top) 
+Team pop(teamNode **top) 
 {
-	if (isStackEmpty(*top)) return;
-	teamNode *temp=(*top); 		
-	Team aux=temp->val;	
-	*top=(*top)->next;      		
-	free(temp);
-	return aux;
+	if(!isStackEmpty(*top))  
+	{
+        teamNode *temp = (*top); 		
+	    Team aux = temp->val;	
+	    *top = (*top)->next;      		
+	    free(temp);
+	    return aux;
+    }
 }
 
 void deleteStack(teamNode**top)
@@ -99,25 +101,24 @@ void deleteStack(teamNode**top)
 	teamNode  *temp;
 	while (!isStackEmpty(*top))
     {
-		temp=*top;
-		*top=(*top)->next;
+		temp = *top;
+		*top = (*top)->next;
 		free(temp);
 	}
 }
 void modifyPoints(Team d)
 {
-    for(int i=0; i<d.numberOfPlayers; i++)
+    for(int i = 0; i < d.numberOfPlayers; i++)
         d.playersArray[i].points++;
 }
 void displayRounds(FILE *display_file, teamNode *winnerStack, int numberOfTeams, int roundNumber)
 {
     fprintf(display_file, "\nWINNERS OF ROUND NO:%d\n", roundNumber);
-    for(int i=0; i<numberOfTeams; i++)
+    for(int i = 0; i < numberOfTeams; i++)
     {
         fprintf(display_file,"%-34s-  %.2f\n", winnerStack->val.teamName, winnerStack->val.teamPoints);
         winnerStack = winnerStack->next;
     }
-
 }
 void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, Team *d)
 {
@@ -125,7 +126,7 @@ void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNod
     {
         deQueue(*q, d);
         fprintf(display_file, "%-33s-%33s\n", d[0].teamName, d[1].teamName);
-        if(d[0].teamPoints>d[1].teamPoints)
+        if(d[0].teamPoints > d[1].teamPoints)
         {
             modifyPoints(d[0]);
             push(&*winnerStack, d[0]);
@@ -139,6 +140,16 @@ void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNod
         }
     }
 }
+/*
+void tasks4and5(FILE *display_file, int *taskArray,teamNode *winnerStack, BSTNode **BSTroot, AVLNode **AVLroot, int **numberOfTeams)
+{   
+    if(taskArray[3])
+        if(*numberOfTeams == 8)
+            BSTroot = leaderBoard(display_file, winnerStack, *numberOfTeams);
+    if(taskArray[4])
+        if(*numberOfTeams == 8)
+             AVLroot = tree(display_file, winnerStack, *numberOfTeams);
+}*/
 void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray)
 {
     FILE *display_file = fopen(outputFilePath, "at");
@@ -150,34 +161,34 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *task
     Queue *q = createQueue();
     enQueue(q, *head);
     Team *d = (Team *)malloc(2*sizeof(Team));
+    if(d == NULL)
+    {
+        printf("AlLoCaTiOn ErRoR!\n");
+        exit(1);
+    }
     teamNode *winnerStack = NULL, *loserStack = NULL;
 
     fprintf(display_file, "\n--- ROUND NO:1\n");
     decideWinner(display_file, &q, &winnerStack, &loserStack, d);
     (*numberOfTeams) = (*numberOfTeams)/2;
-    //deleteList(&*head);
-    teamPoints(winnerStack, *numberOfTeams);
+    teamPoints(winnerStack);
     displayRounds(display_file, winnerStack, *numberOfTeams, 1);
     deleteStack(&loserStack);
-    int roundNumber = 1;
+    int *roundNumber = (int *)malloc(sizeof(int));
+    intAllocationTest(roundNumber);
+    *roundNumber = 1;
     BSTNode *BSTroot = NULL;
     AVLNode *AVLroot = NULL;
     while(*numberOfTeams > 1)
-    {   if(taskArray[3])
+    {   
+        if(taskArray[3])
             if(*numberOfTeams == 8)
-            {
-                
-                BSTroot = leaderBoard(display_file, winnerStack, *numberOfTeams);
-            }
+                BSTroot = leaderBoard(display_file, winnerStack);
         if(taskArray[4])
             if(*numberOfTeams == 8)
-            {
                 AVLroot = tree(display_file, winnerStack, *numberOfTeams);
-            }
-            
-            
-        roundNumber++;
-        fprintf(display_file, "\n--- ROUND NO:%d\n", roundNumber);
+        (*roundNumber)++;
+        fprintf(display_file, "\n--- ROUND NO:%d\n", *roundNumber);
         deleteQueue(q);
         q =  NULL;
         q = createQueue();
@@ -185,19 +196,29 @@ void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *task
         deleteStack(&winnerStack);
         decideWinner(display_file, &q, &winnerStack, &loserStack, d);
         (*numberOfTeams) = (*numberOfTeams)/2;
-        teamPoints(winnerStack, *numberOfTeams);
-        displayRounds(display_file, winnerStack, *numberOfTeams, roundNumber);
+        teamPoints(winnerStack);
+        displayRounds(display_file, winnerStack, *numberOfTeams, *roundNumber);
         deleteStack(&loserStack);
     }
+    deleteQueue(q);
+    q =  NULL;
+    deleteStack(&winnerStack);
+    winnerStack = NULL;
+    deleteStack(&loserStack);
+    loserStack = NULL;
     if(taskArray[3])
     {
         fprintf(display_file, "\nTOP 8 TEAMS:\n");
         inorder(display_file, BSTroot);
+        deleteBST(&BSTroot);
     }
     if(taskArray[4])
     {
         fprintf(display_file, "\nTHE LEVEL 2 TEAMS ARE:\n");
         printLevel(display_file, AVLroot, 3);
+        deleteAVL(&AVLroot);
     }
     fclose(display_file);
+    free(d);
+    free(roundNumber);
 }

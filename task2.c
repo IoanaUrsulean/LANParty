@@ -1,31 +1,31 @@
 #include"task1.h"
 #include"task2.h"
 
-void teamPoints(teamNode *head, int numberOfTeams)
+void teamPoints(teamNode *head)
 {
-    for(int i=0; i<numberOfTeams; i++)
+    while(head != NULL)
     {
         head->val.teamPoints = 0;
-        for(int j=0; j<head->val.numberOfPlayers;j++)
+        for(int j = 0; j < head->val.numberOfPlayers; j++)
             head->val.teamPoints = head->val.teamPoints + head->val.playersArray[j].points;
         head->val.teamPoints = head->val.teamPoints/head->val.numberOfPlayers;
         head = head->next;
     }
 }
-
+/*
 void displayTeamPoints(teamNode *head, int numberOfTeams)
 {
-    for(int i=0; i<numberOfTeams; i++)
+    for(int i = 0; i < numberOfTeams; i++)
     {
         printf("%f %s\n",head->val.teamPoints, head->val.teamName);
         getchar();
         head = head->next;
     }
 }
-
+*/
 int maxNumberOfTeams(int numberOfTeams)
 {
-    int n=1;
+    int n = 1;
     while(2*n <= numberOfTeams)
         n = 2*n;
     return n;
@@ -38,17 +38,17 @@ int floatEqual(float a, float b)
 
 void deleteTeamNode(teamNode **head , float v)
 {
-    if (* head == NULL ) 
+    if(*head == NULL ) 
         return;
     teamNode *headcopy = *head ;
-    if ( floatEqual(headcopy->val.teamPoints, v))
+    if(floatEqual(headcopy->val.teamPoints, v))
     {
         *head = (*head)->next ;
         freeNodeList(&headcopy); 
         return ; 
     }
-    teamNode *prev =* head ; 
-    while ( headcopy != NULL )
+    teamNode *prev = *head ; 
+    while(headcopy != NULL)
     {
         if(floatEqual(headcopy->val.teamPoints, v)){
             prev->next = headcopy->next ;
@@ -66,26 +66,29 @@ void deleteTeamNode(teamNode **head , float v)
 float findLowestScore(teamNode *head)
 {
     float min = head->val.teamPoints;
-    head = head->next ;
+    head = head->next;
     while ( head != NULL )
     {
         if(head->val.teamPoints < min)
             min = head->val.teamPoints;
-        head = head->next ;
+        head = head->next;
     }
     return min;
 }
 
 void deleteTeams(teamNode **head, int *numberOfTeams)
 {
-    int intBuff = maxNumberOfTeams(*numberOfTeams);
+    int *max = (int *)malloc(sizeof(int));
+    intAllocationTest(max); 
+    *max = maxNumberOfTeams(*numberOfTeams);
     float lowestScore;
-    while(*numberOfTeams != intBuff)
+    while(*numberOfTeams != *max)
     {
         lowestScore = findLowestScore(*head);
         deleteTeamNode(&*head, lowestScore);
         (*numberOfTeams)--;
     }
+    free(max);
 }
 
 

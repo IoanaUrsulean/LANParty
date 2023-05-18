@@ -16,8 +16,10 @@ int main(int argc, char **argv)
 
     teamNode *head = NULL;
     int *numberOfTeams = (int *)malloc(sizeof(int));
+    intAllocationTest(numberOfTeams);
     *numberOfTeams = 0;
     int *taskArray = (int *)malloc(5*sizeof(int));
+    intAllocationTest(taskArray);
     for(int i = 0; i < 5; i++)
         fscanf(task_file, "%d", &taskArray[i]);
     
@@ -29,7 +31,7 @@ int main(int argc, char **argv)
     
     if(taskArray[1])
     {
-        teamPoints(head, *numberOfTeams);
+        teamPoints(head);
         deleteTeams(&head, numberOfTeams);
         displayList(outputFilePath, head, *numberOfTeams);
     } 
