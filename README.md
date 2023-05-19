@@ -17,4 +17,4 @@ This function is called in task3.c to use less memory. With the information save
 #### Task 5
 This function is called in task3.c to use less memory. With the information saved at that point, I create a different BST with the last 8 teams, since that is the order in which teams must be inserteed in the AVL tree. The display function for the AVL is also called in task3.c for the same reason. Creating the AVL tree is similar with the BST, it additionally requires equilibrating the tree by rotating it.
 ## Personal opinion
-It was really fun working on this assignment, this being the most complex program I've done so far. I am thankful for being entailed to learn some basic practices of a developer such as working with multiple files, the usage of Git, MakeFile, online checkers and Readme.
+It was really fun working on this assignment, this being the most complex program I've done so far. I am thankful for being entailed to learn some basic practices of a developer such as working with multiple files, the usage of Git, MakeFile, checkers and Readme.
