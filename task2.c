@@ -1,4 +1,3 @@
-#include"task1.h"
 #include"task2.h"
 
 void teamPoints(teamNode *head)
@@ -13,18 +12,7 @@ void teamPoints(teamNode *head)
         head = head->next;
     }
 }
-/*
-void displayTeamPoints(teamNode *head, int numberOfTeams)
-{
-    //functie ajutatoare de afisare punctaj
-    for(int i = 0; i < numberOfTeams; i++)
-    {
-        printf("%f %s\n",head->val.teamPoints, head->val.teamName);
-        getchar();
-        head = head->next;
-    }
-}
-*/
+
 int maxNumberOfTeams(int numberOfTeams)
 {
     //functie pentru aflare numarului maxim de echipe permis

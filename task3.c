@@ -1,7 +1,3 @@
-#include"task1.h"
-#include"task2.h"
-#include"task4.h"
-#include"task5.h"
 #include"task3.h"
 
 Queue *createQueue()
@@ -131,12 +127,14 @@ void deleteStack(teamNode **top)
 		free(temp);
 	}
 }
+
 void modifyPoints(Team d)
 {
     //functie ce modifica punctajul castigatorilor
     for(int i = 0; i < d.numberOfPlayers; i++)
         d.playersArray[i].points++;
 }
+
 void displayRounds(FILE *display_file, teamNode *winnerStack, int numberOfTeams, int roundNumber)
 {
     //functie de afisare a castigatorilor fiecarei runde
@@ -147,6 +145,7 @@ void displayRounds(FILE *display_file, teamNode *winnerStack, int numberOfTeams,
         winnerStack = winnerStack->next;
     }
 }
+
 void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, Team *d)
 {
     //functia ce umple stiva de castigatori si de invinsi dupa caz
@@ -196,6 +195,7 @@ void printTasks4and5(FILE *display_file, int *taskArray, BSTNode **BSTroot, AVLN
         deleteAVL(&*AVLroot);
     }
 }
+
 void rounds(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, int *numberOfTeams, Team *d, int roundNumber)
 {
     //functie de creare a meciurilor
@@ -205,6 +205,7 @@ void rounds(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **lo
     displayRounds(display_file, *winnerStack, *numberOfTeams, roundNumber);
     deleteStack(&*loserStack);
 }
+
 void playGame(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray)
 {
     //functia de baza a acestui task

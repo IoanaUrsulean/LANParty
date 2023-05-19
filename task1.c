@@ -1,4 +1,5 @@
 #include"task1.h"
+
 void intAllocationTest(int *p)
 {
     //functie pentru testare alocare pentru integer
@@ -8,6 +9,7 @@ void intAllocationTest(int *p)
         exit(1);
     }
 }
+
 void charAllocationTest(char *p)
 {
     //functie pentru testare alocare pentru caracter
@@ -17,6 +19,7 @@ void charAllocationTest(char *p)
         exit(1);
     }
 }
+
 void readPlayerArray(Player *array, int intValue, FILE *read_file)
 {
     //functia pentru citirea datelor despre jucatorii unei echipe

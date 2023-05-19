@@ -28,7 +28,6 @@ int main(int argc, char **argv)
         readList(inputFilePath, &head, numberOfTeams);
         displayList(outputFilePath, head, *numberOfTeams);
     } 
-    
     if(taskArray[1])
     {
         teamPoints(head);

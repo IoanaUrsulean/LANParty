@@ -1,3 +1,8 @@
+#ifndef task5_h
+#define task5_h
+#include"task1.h"
+#include"task4.h"
+
 struct AVLNode 
 {
     int height; 
@@ -19,3 +24,4 @@ AVLNode *tree(FILE *display_file, teamNode *winnerStack, int numberOfTeams);
 void printLevel(FILE *display_file,  AVLNode *root , int level);
 void freeNodeAVL(AVLNode **root);
 void deleteAVL(AVLNode **root);
+#endif

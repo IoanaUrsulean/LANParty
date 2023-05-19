@@ -1,3 +1,5 @@
+#ifndef task1_h
+#define task1_h
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -35,3 +37,4 @@ void displayList(char *outputFilePath, teamNode *head, int numberOfTeams);
 void freeNodeList(teamNode **head);
 void deleteList( teamNode **head);
 void freeMemory(teamNode **head, int *numberOfTeams, int *taskArray);
+#endif

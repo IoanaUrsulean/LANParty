@@ -1,5 +1,5 @@
-#include"task1.h"
 #include"task4.h"
+
 BSTNode *newNode(float floatData, char *charData) 
 {
     //functie pentru creare nod nou in BST
@@ -16,6 +16,7 @@ BSTNode *newNode(float floatData, char *charData)
     node->left = node->right = NULL ;
     return node ;
 }
+
 BSTNode *insertBSTNode(BSTNode *node , float floatData, char *charData) 
 {
     //functia de inserare nod in BST
@@ -35,6 +36,7 @@ BSTNode *insertBSTNode(BSTNode *node , float floatData, char *charData)
         }
     return node ;
 }
+
 void inorder(FILE *display_file, BSTNode * root ) 
 {
     //functia de afisare in inordine
@@ -45,6 +47,7 @@ void inorder(FILE *display_file, BSTNode * root )
         
     }
 }
+
 BSTNode *leaderBoard(FILE *display_file, teamNode *winnerStack)
 {
     //functia de baza a acestui task
@@ -57,12 +60,14 @@ BSTNode *leaderBoard(FILE *display_file, teamNode *winnerStack)
     }
     return root;
 }
+
 void freeNodeBST(BSTNode **root)
 {
     //functie de eliberare memorie pentru un nod din BST
     free((*root)->name);
     free(*root);
 }
+
 void deleteBST(BSTNode **root)
 {
     //functia de stergere a BST-ului
