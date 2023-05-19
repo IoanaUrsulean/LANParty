@@ -24,4 +24,7 @@ void push(teamNode **top, Team v) ;
 Team pop(teamNode **top) ;
 void deleteStack(teamNode **top);
 void decideWinner(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, Team *d);
-void rounds(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray);
+//void tasks4and5(FILE *display_file, int *taskArray, teamNode *winnerStack, BSTNode **BSTroot, AVLNode **AVLroot, int numberOfTeams);
+//void printTasks4and5(FILE *display_file, int *taskArray, BSTNode **BSTroot, AVLNode **AVLroot);
+void rounds(FILE *display_file, Queue **q, teamNode **winnerStack, teamNode **loserStack, int *numberOfTeams, Team *d, int roundNumber);
+void playGame(char *outputFilePath, teamNode **head, int *numberOfTeams, int *taskArray);

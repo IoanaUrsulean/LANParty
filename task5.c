@@ -3,6 +3,7 @@
 #include"task5.h"
 int nodeHeight(AVLNode *root)
 {
+    //functie pentru aflarea coeficientului de rotatie
     if(root == NULL) 
         return -1;
     else 
@@ -10,11 +11,13 @@ int nodeHeight(AVLNode *root)
 }
 int max(int a,int b) 
 {
+    //functie pentru aflarea maximului dintre doua numere
     return ((a > b) ? a : b);
 }
 
 AVLNode *rightRotation(AVLNode *z)
 {
+    //rotatie dreapta
     AVLNode *y = z->left;
     AVLNode *T3 = y->right;
 
@@ -29,6 +32,7 @@ AVLNode *rightRotation(AVLNode *z)
 
 AVLNode* leftRotation(AVLNode* z)
 {
+    //rotatie stanga
     AVLNode *y = z->right;
     AVLNode *T2 = y->left;
 
@@ -43,17 +47,20 @@ AVLNode* leftRotation(AVLNode* z)
 
 AVLNode* LRRotation(AVLNode *z)
 {
+    //rotatie stanga-dreapta
     z->left = leftRotation(z->left);
     return rightRotation(z);
 }
 
 AVLNode *RLRotation(AVLNode *z)
 {
+    //rotatie dreapta-stanga
     z->right = rightRotation(z->right);
     return leftRotation(z);
 }
 AVLNode *insertAVLNode(AVLNode *node , float floatData, char *charData) 
 {
+    //functia de inserare nod in arborele AVL
     if(node == NULL)
     {
         node = (AVLNode *)malloc(sizeof(AVLNode));
@@ -82,6 +89,7 @@ AVLNode *insertAVLNode(AVLNode *node , float floatData, char *charData)
             else 
                 node->right = insertAVLNode(node->right , floatData, charData);
         } 
+    //dupa inserare se echilibreaza arborele
     node->height = 1 + max(nodeHeight(node->left ) ,
     nodeHeight(node->right));
     int k = (nodeHeight(node->left) - nodeHeight(node->right));
@@ -98,6 +106,7 @@ AVLNode *insertAVLNode(AVLNode *node , float floatData, char *charData)
 }
 void createTree (BSTNode *BSTroot , AVLNode **AVLroot) 
 {
+    //functia de creare a AVL-ului pe baza BST-ului
     if(BSTroot ){
         createTree(BSTroot->right , &*AVLroot);
         *AVLroot = insertAVLNode(*AVLroot ,BSTroot->points, BSTroot->name);
@@ -106,15 +115,19 @@ void createTree (BSTNode *BSTroot , AVLNode **AVLroot)
 }
 AVLNode *tree(FILE *display_file, teamNode *winnerStack, int numberOfTeams)
 {
+    //functia de baza a acestui task
     BSTNode *helpingHand = NULL;
+    //se creeaza un BST exact ca la punctul anterior
     helpingHand = leaderBoard(display_file, winnerStack);
     AVLNode *root = NULL ;
+    //se insereaza in ordinea de la punctul anterior
     createTree(helpingHand, &root);
     deleteBST(&helpingHand);
     return root;
 }
 void printLevel(FILE *display_file,  AVLNode * root , int level)
 {
+    //functia de afisare arbore pe nivel
     if(root == NULL) 
         return ;
     if(level == 1) 
@@ -128,11 +141,13 @@ void printLevel(FILE *display_file,  AVLNode * root , int level)
 }
 void freeNodeAVL(AVLNode **root)
 {
+    //functie de eliberare nod din AVL
     free((*root)->name);
     free(*root);
 }
 void deleteAVL(AVLNode **root)
 {
+    //functie de strergere a AVL-ului
     if(*root)
     {
         deleteAVL(&(*root)->left);

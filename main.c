@@ -36,10 +36,7 @@ int main(int argc, char **argv)
         displayList(outputFilePath, head, *numberOfTeams);
     } 
     if(taskArray[2])
-        rounds(outputFilePath, &head, numberOfTeams, taskArray);
-
-
-
+        playGame(outputFilePath, &head, numberOfTeams, taskArray);
 
     //eliberare memorie
     freeMemory(&head, numberOfTeams, taskArray);

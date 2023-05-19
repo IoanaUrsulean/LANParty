@@ -2,6 +2,7 @@
 #include"task4.h"
 BSTNode *newNode(float floatData, char *charData) 
 {
+    //functie pentru creare nod nou in BST
     BSTNode *node = (BSTNode *)malloc(sizeof(BSTNode));
     if(node == NULL)
     {
@@ -17,6 +18,7 @@ BSTNode *newNode(float floatData, char *charData)
 }
 BSTNode *insertBSTNode(BSTNode *node , float floatData, char *charData) 
 {
+    //functia de inserare nod in BST
     if(node == NULL) 
         return newNode(floatData, charData);
     if(floatData < node->points)
@@ -35,6 +37,7 @@ BSTNode *insertBSTNode(BSTNode *node , float floatData, char *charData)
 }
 void inorder(FILE *display_file, BSTNode * root ) 
 {
+    //functia de afisare in inordine
     if(root ){
         inorder (display_file, root->right );
         fprintf(display_file, "%-34s-  %.2f\n",root->name, root->points );
@@ -44,7 +47,9 @@ void inorder(FILE *display_file, BSTNode * root )
 }
 BSTNode *leaderBoard(FILE *display_file, teamNode *winnerStack)
 {
+    //functia de baza a acestui task
     BSTNode *root = NULL ;
+    //se creeazaBST-ul
     while(winnerStack != NULL)
     {
         root = insertBSTNode(root ,winnerStack->val.teamPoints, winnerStack->val.teamName);
@@ -54,11 +59,13 @@ BSTNode *leaderBoard(FILE *display_file, teamNode *winnerStack)
 }
 void freeNodeBST(BSTNode **root)
 {
+    //functie de eliberare memorie pentru un nod din BST
     free((*root)->name);
     free(*root);
 }
 void deleteBST(BSTNode **root)
 {
+    //functia de stergere a BST-ului
     if(*root)
     {
         deleteBST(&(*root)->left);
